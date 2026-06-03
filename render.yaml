@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: genai-rag-backend
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: COHERE_API_KEY
+        sync: false
+      - key: QDRANT_HOST
+        sync: false
+      - key: QDRANT_PORT
+        value: "6333"
+      - key: QDRANT_API_KEY
+        sync: false
+      - key: LANGFUSE_PUBLIC_KEY
+        sync: false
+      - key: LANGFUSE_SECRET_KEY
+        sync: false
+
+  - type: web
+    name: genai-rag-frontend
+    runtime: docker
+    dockerfilePath: ./Dockerfile.frontend
+    plan: free
+    envVars:
+      - key: API_URL
+        value: https://genai-rag-backend.onrender.com
