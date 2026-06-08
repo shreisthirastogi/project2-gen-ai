@@ -145,3 +145,5 @@ if __name__ == "__main__":
     parser.add_argument("--qdrant_port", type=int, default=6333)
     args = parser.parse_args()
     run_ingestion(args.data_dir, args.qdrant_host, args.qdrant_port)
+
+# pdfplumber extraction
