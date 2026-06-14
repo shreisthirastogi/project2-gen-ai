@@ -147,3 +147,5 @@ if __name__ == "__main__":
     run_ingestion(args.data_dir, args.qdrant_host, args.qdrant_port)
 
 # pdfplumber extraction
+
+# chunking v1
