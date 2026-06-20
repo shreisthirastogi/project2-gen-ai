@@ -149,3 +149,5 @@ if __name__ == "__main__":
 # pdfplumber extraction
 
 # chunking v1
+
+# qdrant upsert
