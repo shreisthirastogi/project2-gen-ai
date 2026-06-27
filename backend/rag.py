@@ -297,3 +297,5 @@ def ask(req: QueryRequest):
         model_used=model_name,
         cost_estimate_usd=round(cost, 6),
     )
+
+# dense search v1
