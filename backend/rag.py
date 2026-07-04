@@ -299,3 +299,5 @@ def ask(req: QueryRequest):
     )
 
 # dense search v1
+
+# refusal gate
