@@ -307,3 +307,5 @@ def ask(req: QueryRequest):
 # model routing
 
 # baseline reranker
+
+# crossencoder reranker
