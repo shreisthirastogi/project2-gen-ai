@@ -309,3 +309,5 @@ def ask(req: QueryRequest):
 # baseline reranker
 
 # crossencoder reranker
+
+# BM25 search
