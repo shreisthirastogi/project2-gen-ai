@@ -311,3 +311,5 @@ def ask(req: QueryRequest):
 # crossencoder reranker
 
 # BM25 search
+
+# RRF fusion
