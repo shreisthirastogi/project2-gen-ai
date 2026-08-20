@@ -313,3 +313,5 @@ def ask(req: QueryRequest):
 # BM25 search
 
 # RRF fusion
+
+# Cohere rerank
