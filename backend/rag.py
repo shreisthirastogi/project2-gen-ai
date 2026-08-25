@@ -315,3 +315,5 @@ def ask(req: QueryRequest):
 # RRF fusion
 
 # Cohere rerank
+
+# semantic cache
