@@ -317,3 +317,5 @@ def ask(req: QueryRequest):
 # Cohere rerank
 
 # semantic cache
+
+# variable shadow fix
