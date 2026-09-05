@@ -319,3 +319,5 @@ def ask(req: QueryRequest):
 # semantic cache
 
 # variable shadow fix
+
+# qdrant cloud auth
