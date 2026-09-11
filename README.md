@@ -20,3 +20,5 @@ A production-grade Retrieval-Augmented Generation pipeline over a messy corpus (
 - Answer Relevancy: 0.95
 - Refusal Accuracy (Out-of-corpus): 98%
 - Cost per query: $0.008
+
+# deploy ready
