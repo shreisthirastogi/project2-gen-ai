@@ -1,23 +1,19 @@
-"""
-app.py — Enterprise RAG Dashboard (All-in-One Streamlit App)
-Runs RAG pipeline directly — no separate FastAPI backend needed.
-"""
-import os, time
+﻿import os, time
 import streamlit as st
 import pandas as pd
 
 st.set_page_config(page_title="Enterprise RAG", layout="wide")
-st.title("?? Enterprise RAG — Live Eval Dashboard")
+st.title("📊 Enterprise RAG — Live Eval Dashboard")
 st.caption("Hybrid Search (Dense+BM25+RRF) · Cohere Rerank · Guardrails · RAGAS Eval")
 
-# -- Load API keys from Streamlit secrets --------------------------------------
+# ── Load API keys from Streamlit secrets ──────────────────────────────────────
 openai_key  = st.secrets.get("OPENAI_API_KEY",  os.getenv("OPENAI_API_KEY", ""))
 qdrant_url  = st.secrets.get("QDRANT_URL",       os.getenv("QDRANT_URL", ""))
 qdrant_key  = st.secrets.get("QDRANT_API_KEY",   os.getenv("QDRANT_API_KEY", ""))
 cohere_key  = st.secrets.get("COHERE_API_KEY",   os.getenv("COHERE_API_KEY", ""))
 
 if not openai_key:
-    st.error("?? Add OPENAI_API_KEY in Streamlit Cloud secrets.")
+    st.error("⚠️ Add OPENAI_API_KEY in Streamlit Cloud secrets.")
     st.stop()
 
 os.environ["OPENAI_API_KEY"]  = openai_key
@@ -28,9 +24,9 @@ if cohere_key: os.environ["COHERE_API_KEY"] = cohere_key
 import sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).parent / "backend"))
 
-tab1, tab2 = st.tabs(["?? RAGAS Metric Trends", "?? Live Query"])
+tab1, tab2 = st.tabs(["📈 RAGAS Metric Trends", "🧪 Live Query"])
 
-# -- TAB 1: RAGAS Metric Trends ------------------------------------------------
+# ── TAB 1: RAGAS Metric Trends ────────────────────────────────────────────────
 with tab1:
     st.subheader("RAGAS Metric Progression")
     history = pd.DataFrame({
@@ -51,16 +47,16 @@ with tab1:
     st.line_chart(history.set_index("Phase")[["Faithfulness","Context Precision","Answer Relevancy","Context Recall"]])
     st.dataframe(history, use_container_width=True)
 
-# -- TAB 2: Live Query ---------------------------------------------------------
+# ── TAB 2: Live Query ─────────────────────────────────────────────────────────
 with tab2:
-    st.subheader("?? Live Query Test")
+    st.subheader("🔍 Live Query Test")
     st.info("Ask a question about your ingested documents. Ask something off-topic to trigger the **refusal guardrail**.")
     query = st.text_input("Your question:", placeholder="e.g. What are the key risk factors mentioned?")
-    if st.button("?? Ask", type="primary"):
+    if st.button("🚀 Ask", type="primary"):
         if not query.strip():
             st.warning("Please enter a question.")
         elif not qdrant_url:
-            st.warning("?? QDRANT_URL not set in secrets. Add it to enable live queries.")
+            st.warning("⚠️ QDRANT_URL not set in secrets. Add it to enable live queries.")
         else:
             with st.spinner("Retrieving and generating…"):
                 try:
@@ -69,7 +65,7 @@ with tab2:
                     results = hybrid_search(query)
                     top_score = results[0]["score"] if results else 0.0
                     if top_score < REFUSAL_THRESHOLD:
-                        st.error(f"?? **Refused** — top similarity score {top_score:.3f} below threshold {REFUSAL_THRESHOLD}")
+                        st.error(f"🚫 **Refused** — top similarity score {top_score:.3f} below threshold {REFUSAL_THRESHOLD}")
                     else:
                         top = naive_rerank(results, query)
                         context = "\n\n".join(
@@ -78,14 +74,14 @@ with tab2:
                         llm = get_llm()
                         answer = (RAG_PROMPT | llm).invoke({"context": context, "question": query}).content
                         latency = round((time.time()-t0)*1000, 1)
-                        st.success("? Grounded answer:")
+                        st.success("✅ Grounded answer:")
                         st.markdown(answer)
                         col1,col2,col3 = st.columns(3)
                         col1.metric("Latency", f"{latency} ms")
                         col2.metric("Top Score", f"{top_score:.3f}")
                         col3.metric("Chunks Used", len(top))
-                        with st.expander("?? Context Chunks"):
+                        with st.expander("📎 Context Chunks"):
                             for r in top:
                                 st.markdown(f"- **[chunk_id={r['metadata'].get('chunk_id')}]** score: {r['score']:.3f}")
                 except Exception as e:
-                    st.error(f"Error: {e}")
+                    st.error(f"Error: {e}")
