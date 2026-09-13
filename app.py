@@ -1,14 +1,14 @@
 """
-app.py — Enterprise RAG Dashboard (All-in-One Streamlit App)
-Runs RAG pipeline directly — no separate FastAPI backend needed.
+app.py â€” Enterprise RAG Dashboard (All-in-One Streamlit App)
+Runs RAG pipeline directly â€” no separate FastAPI backend needed.
 """
 import os, time
 import streamlit as st
 import pandas as pd
 
 st.set_page_config(page_title="Enterprise RAG", layout="wide")
-st.title("?? Enterprise RAG — Live Eval Dashboard")
-st.caption("Hybrid Search (Dense+BM25+RRF) · Cohere Rerank · Guardrails · RAGAS Eval")
+st.title("?? Enterprise RAG â€” Live Eval Dashboard")
+st.caption("Hybrid Search (Dense+BM25+RRF) Â· Cohere Rerank Â· Guardrails Â· RAGAS Eval")
 
 # -- Load API keys from Streamlit secrets --------------------------------------
 openai_key  = st.secrets.get("OPENAI_API_KEY",  os.getenv("OPENAI_API_KEY", ""))
@@ -62,14 +62,14 @@ with tab2:
         elif not qdrant_url:
             st.warning("?? QDRANT_URL not set in secrets. Add it to enable live queries.")
         else:
-            with st.spinner("Retrieving and generating…"):
+            with st.spinner("Retrieving and generatingâ€¦"):
                 try:
                     from rag import hybrid_search, naive_rerank, get_llm, RAG_PROMPT, REFUSAL_THRESHOLD
                     t0 = time.time()
                     results = hybrid_search(query)
                     top_score = results[0]["score"] if results else 0.0
                     if top_score < REFUSAL_THRESHOLD:
-                        st.error(f"?? **Refused** — top similarity score {top_score:.3f} below threshold {REFUSAL_THRESHOLD}")
+                        st.error(f"?? **Refused** â€” top similarity score {top_score:.3f} below threshold {REFUSAL_THRESHOLD}")
                     else:
                         top = naive_rerank(results, query)
                         context = "\n\n".join(
@@ -88,4 +88,4 @@ with tab2:
                             for r in top:
                                 st.markdown(f"- **[chunk_id={r['metadata'].get('chunk_id')}]** score: {r['score']:.3f}")
                 except Exception as e:
-                    st.error(f"Error: {e}")
+                    st.error(f"Error: {e}")
