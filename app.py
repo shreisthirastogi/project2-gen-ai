@@ -10,9 +10,11 @@ st.caption("Hybrid Search (Dense+BM25+RRF) · Cohere Rerank · Guardrails · RAG
 openai_key  = st.secrets.get("OPENAI_API_KEY",  os.getenv("OPENAI_API_KEY", ""))
 qdrant_url  = st.secrets.get("QDRANT_URL",       os.getenv("QDRANT_URL", ""))
 qdrant_key  = st.secrets.get("QDRANT_API_KEY",   os.getenv("QDRANT_API_KEY", ""))
+gemini_key = st.secrets.get("GEMINI_API_KEY", os.getenv("GEMINI_API_KEY", ""))
+if gemini_key: os.environ["GEMINI_API_KEY"] = gemini_key
 cohere_key  = st.secrets.get("COHERE_API_KEY",   os.getenv("COHERE_API_KEY", ""))
 
-if not openai_key:
+if not openai_key and not gemini_key:
     st.error("⚠️ Add OPENAI_API_KEY in Streamlit Cloud secrets.")
     st.stop()
 

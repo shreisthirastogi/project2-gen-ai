@@ -1,4 +1,4 @@
-"""
+﻿"""
 rag.py — FastAPI RAG Backend for Project 2
 Features: Hybrid search (dense + BM25 via Qdrant), cross-encoder reranking,
           refusal guardrail, inline citations, model routing, streaming.

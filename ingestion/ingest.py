@@ -1,4 +1,4 @@
-"""
+﻿"""
 ingest.py — Document ingestion pipeline for Project 2 (Enterprise RAG)
 
 Usage:
